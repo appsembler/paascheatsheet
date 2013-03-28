@@ -44,33 +44,7 @@
           }
       }
 
-      @media screen and (max-width: 800px) {
-          .shareaholic-canvas {
-            display: none;
-          }
-
-      }
     </style>
-
-  <!-- Shareaholic -->
-  <script type="text/javascript">
-  //<![CDATA[
-    (function() {
-      var shr = document.createElement('script');
-      shr.src = '//dtym7iokkjlif.cloudfront.net/assets/pub/shareaholic.js';
-      shr.type = 'text/javascript';
-      shr.async = 'true';
-      shr.onload = shr.onreadystatechange = function() {
-        var rs = this.readyState;
-        if (rs && rs != 'complete' && rs != 'loaded') return;
-        var apikey = '265c4cd348bf0bc5abbc6651306df5c1'
-        try { Shareaholic.init(apikey); } catch (e) {}
-      };
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(shr, s);
-    })();
-  //]]>
-  </script>
 
   </head>
 
@@ -91,8 +65,7 @@
               <li class="active"><a href="index.html">Home</a></li>
               <li><a href="about.html">About</a></li>
             </ul>
-<!--             <div class='shareaholic-canvas' data-shareaholic-widgets='share_buttons'></div>
- -->          </div><!--/.nav-collapse -->
+         </div><!--/.nav-collapse -->
 
         </div>
       </div>
@@ -735,15 +708,6 @@ application = django.core.handlers.wsgi.WSGIHandler()
                   <td>Enter Option Parameters Here</td>
               </tr>
           </table>
-          <br />
-          <h2>Contributing</h2>
-
-          <div class="github-widget" data-repo="appsembler/paascheatsheet"></div>
-            <br />
-            <p>The project is hosted on <a href="#" target="_blank" class="projectLinks">Github</a> and is available for use under the <a href="#" target="_blank" class="projectLinks">MIT software license</a>.  You can report bugs and discuss features on the <a href="#" target="_blank">GitHub issues page</a>, or send tweets to <a href="http://twitter.com/appsembler" target="_blank">@appsembler</a>.
-            </p>
-            <p><a class="btn btn-primary btn-large" href="#" target="_blank">Fork on Github &raquo;</a></p>
-          </div>
 
       </div><!--/row-->
       <hr>
@@ -767,7 +731,6 @@ application = django.core.handlers.wsgi.WSGIHandler()
     <script src="js/history.js"></script>
     <script src="js/jquery.tocify.min.js"></script>
     <script src="js/prettify.js"></script>
-    <script src="js/githubrepo.js"></script>
     
     <!-- segment.io -->
     <script type="text/javascript">
