@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>PaaS Cheatsheet for Django | Deploy to Heroku, Dotcloud, OpenShift, Elastic Beanstalk</title>
+    <meta name="description" content="Get started quickly deploying your app to a number of PaaS providers.">
+    <meta name="keywords" content="AWS, Amazon, Elastic Beanstalk, Dotcloud, Heroku, OpenShift, Stackato, Python, Django, PaaS, deploy, hosting, Platform-as-a-Service">
+
+    <!-- Mobile viewport optimized -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- Mobile Internet Explorer allows us to activate ClearType technology for smoothing fonts for easy reading -->
+    <meta http-equiv="cleartype" content="on">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/black-tie/jquery-ui.css" rel="stylesheet">
+    <link href="css/jquery.tocify.css" rel="stylesheet">
+    <link href="css/prettify.css" type="text/css" rel="stylesheet" />
+    <link href="css/styles.css" type="text/css" rel="stylesheet" />
+
+    <link href="http://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <style>
+      @media (max-width: 767px) {
+          #toc {
+              position: relative;
+              width: 100%;
+              margin: 0px 0px 20px 0px;
+          }
+      }
+
+      @media screen and (max-width: 800px) {
+          .shareaholic-canvas {
+            display: none;
+          }
+
+      }
+    </style>
+
+  <!-- Shareaholic -->
+  <script type="text/javascript">
+  //<![CDATA[
+    (function() {
+      var shr = document.createElement('script');
+      shr.src = '//dtym7iokkjlif.cloudfront.net/assets/pub/shareaholic.js';
+      shr.type = 'text/javascript';
+      shr.async = 'true';
+      shr.onload = shr.onreadystatechange = function() {
+        var rs = this.readyState;
+        if (rs && rs != 'complete' && rs != 'loaded') return;
+        var apikey = '265c4cd348bf0bc5abbc6651306df5c1'
+        try { Shareaholic.init(apikey); } catch (e) {}
+      };
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(shr, s);
+    })();
+  //]]>
+  </script>
+
+  </head>
+
+  <body>
+    <a href="http://github.com/appsembler/paascheatsheet" target="_blank" id="fork-me"><img style="position: fixed;top: 0; right: 0; border: 0;z-index:999999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" alt="Fork me on GitHub"></a>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#"><strong>PaaS</strong> Cheatsheet</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+            <div class='shareaholic-canvas' data-shareaholic-widgets='share_buttons'></div>
+          </div><!--/.nav-collapse -->
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3 tocify">
+          <div id="toc">
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+
+        <!-- Jumbotron -->
+        <div class="jumbotron">
+
+          <div class="providers" style="width: 800px;">
+          <h1>PaaS Cheatsheet</h1>
+          <p class="lead">Quick start guide to deploying apps to PaaS providers</p>
+          <img style="display: block; margin: 0 auto;" src="img/logos/github-logo.png" />
+          <img style="display: block; margin: 0 auto;" src="img/splay.png">
+
+          <ul class="provider-list">
+            <li>
+              <img src="img/logos/heroku-logo-white.jpg" style="display: inline-block; width: 100px;">
+            </li>
+            <li>
+              <img src="img/logos/dotcloud-logo.jpg" style="display: inline-block; width: 100px;">
+            </li>
+            <li>
+              <img src="img/logos/openshift_logo.png" style="display: inline-block; width: 100px;">
+            </li>
+            <li>
+              <img src="img/logos/amazon-web-services-logo.png" style="display: inline-block; width: 100px;">
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <section id="requirements">
+
+    <h2>Requirements</h2>
+    <ul class="nav nav-tabs">
+      <li><a href="#requirements-heroku" data-toggle="tab">Heroku</a></li>
+      <li><a href="#requirements-dotcloud" data-toggle="tab">Dotcloud</a></li>
+      <li><a href="#requirements-openshift" data-toggle="tab">OpenShift</a></li>
+      <li><a href="#requirements-elasticbeanstalk" data-toggle="tab">Elastic Beanstalk</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane">
+        blah
+      </div>
+    </div>
+    <div class="tab-content">
+      <div class="tab-pane" id="requirements-heroku">
+        <h3>requirements.txt</h3>
+        <pre class="prettyprint">
+          <code class="language-text">
+Django==1.5
+South==0.7.6
+psycopg2==2.4.6
+
+# for parsing the DATABASE_URL string
+dj-database-url==0.2.1
+
+# for storing static assets on Amazon S3
+django-storages==1.1.6
+boto==2.8.0
+
+# needed for gunicorn (gunicorn, gevent, greenlet)
+gunicorn==0.17.2
+gevent==0.13.7
+greenlet==0.4.0
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="requirements-dotcloud">
+        <h3>requirements.txt</h3>
+        <pre class="prettyprint">
+          <code class="language-text">
+Django==1.5
+South==0.7.6
+psycopg2==2.4.6        # if you're using PostgreSQL
+MySQL-python==1.2.4    # if you're using MySQL
+        </code>
+        </pre>
+
+      <!-- 
+TODO: show how to use DOTCLOUD_DATA_MYSQL_URL -->
+
+      </div>
+
+      <div class="tab-pane" id="requirements-openshift">
+        <h3>requirements.txt</h3>
+        <pre class="prettyprint">
+          <code class="language-text">
+Django==1.5
+South==0.7.6
+psycopg2==2.4.6        # if you're using PostgreSQL
+MySQL-python==1.2.4    # if you're using MySQL
+        </code>
+        </pre>
+        <h3>Then create a setup.py file</h3> 
+        With this line to read the requirements.txt file:
+        <pre class="prettyprint">
+          <code class="language-py">
+install_requires=open('%s/requirements.txt' % os.environ.get('OPENSHIFT_REPO_DIR', PROJECT_ROOT)).readlines(),
+          </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="requirements-elasticbeanstalk">
+        <h3>requirements.txt</h3>
+        <pre class="prettyprint">
+          <code class="language-text">
+Django==1.4.1
+South==0.7.6
+MySQL-python==1.2.3
+        </code>
+        </pre>
+      </div>
+    </div>
+
+  </section>
+
+<hr>
+
+    <section id="database-settings">
+
+    <h2>Database settings</h2>
+    <ul class="nav nav-tabs">
+      <li><a href="#database-heroku" data-toggle="tab">Heroku</a></li>
+      <li><a href="#database-dotcloud" data-toggle="tab">Dotcloud</a></li>
+      <li><a href="#database-openshift" data-toggle="tab">OpenShift</a></li>
+      <li><a href="#database-elasticbeanstalk" data-toggle="tab">Elastic Beanstalk</a></li>
+    </ul>
+    <div class="tab-content">
+       <div class="tab-pane" id="database-heroku">
+        <h3>Create the database</h3>
+        <pre class="prettyprint">
+          <code class="language-bash">
+$ heroku addons:add heroku-postgresql:dev
+          </code>
+        </pre>
+        <h3>Add to settings.py</h3>
+        <pre class="prettyprint">
+          <code class="language-py">
+import dj_database_url
+
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="database-dotcloud">
+        <h3>Add to dotcloud.yml</h3>
+        For PostgreSQL:
+        <pre class="prettyprint">
+          <code class="language-yml">
+db:
+  type: postgresql
+          </code>
+        </pre>
+        For MySQL:
+        <pre class="prettyprint">
+          <code class="language-yml">
+db:
+  type: mysql
+          </code>
+        </pre>
+        <h3>Add to settings.py</h3>
+        <pre class="prettyprint">
+          <code class="language-py">
+import json
+
+with open('/home/dotcloud/environment.json') as f:
+  env = json.load(f)
+
+if 'DOTCLOUD_DATA_MYSQL_HOST' in env:
+  DATABASES = {
+      'default': {
+          'ENGINE': 'django.db.backends.mysql',
+          'NAME': env['DOTCLOUD_PROJECT'],
+          'USER': env['DOTCLOUD_DATA_MYSQL_LOGIN'],
+          'PASSWORD': env['DOTCLOUD_DATA_MYSQL_PASSWORD'],
+          'HOST': env['DOTCLOUD_DATA_MYSQL_HOST'],
+          'PORT': int(env['DOTCLOUD_DATA_MYSQL_PORT']),
+      }
+  }
+elif 'DOTCLOUD_DB_SQL_HOST' in env:
+  DATABASES = {
+      'default': {
+          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+          'NAME': env['DOTCLOUD_PROJECT'],
+          'USER': env['DOTCLOUD_DB_SQL_LOGIN'],
+          'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],
+          'HOST': env['DOTCLOUD_DB_SQL_HOST'],
+          'PORT': int(env['DOTCLOUD_DB_SQL_PORT']),
+      }
+  }
+        </code>
+        </pre>
+
+      <!-- 
+TODO: show how to use DOTCLOUD_DATA_MYSQL_URL -->
+
+      </div>
+
+      <div class="tab-pane" id="database-openshift">
+        <h3>Create database</h3>
+        For PostgreSQL:
+        <pre class="prettyprint">
+          <code class="language-bash">
+$ rhc cartridge add -c postgresql-8.4 -a [myapp]
+          </code>
+        </pre>
+        For MySQL:
+        <pre class="prettyprint">
+          <code class="language-bash">
+$ rhc app cartridge add -c mysql-5.1 -a [myapp]
+          </code>
+        </pre>
+        <h3>Add to settings.py</h3>
+        <pre class="prettyprint">
+          <code class="language-py">
+import os
+import urlparse
+
+DATABASES = {}
+if 'OPENSHIFT_MYSQL_DB_URL' in os.environ:
+    url = urlparse.urlparse(os.environ.get('OPENSHIFT_MYSQL_DB_URL'))
+
+    DATABASES['default'] = {
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME': os.environ['OPENSHIFT_APP_NAME'],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
+        }
+elif 'OPENSHIFT_POSTGRESQL_DB_URL' in os.environ:
+    url = urlparse.urlparse(os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL'))
+
+    DATABASES['default'] = {
+        'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['OPENSHIFT_APP_NAME'],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
+        }
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="database-elasticbeanstalk">
+        <h3>Create database</h3>
+        Read the article <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Python.rds.html">Using Amazon RDS with Python</a>.
+        <pre class="prettyprint">
+          <code class="language-bash">
+$ eb init
+...
+Create an RDS DB Instance? [y/n]:
+Enter an RDS DB master password: 
+Retype password to confirm:
+          </code>
+        </pre>
+        <h3>settings.py</h3>
+        <pre class="prettyprint">
+          <code class="language-py">
+import os
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['RDS_DB_NAME'],
+        'USER': os.environ['RDS_USERNAME'],
+        'PASSWORD': os.environ['RDS_PASSWORD'],
+        'HOST': os.environ['RDS_HOSTNAME'],
+        'PORT': os.environ['RDS_PORT'],
+    }
+}
+        </code>
+        </pre>
+      </div>
+    </div>
+
+  </section>
+
+<hr>
+
+  <section id="environment-variables">
+
+    <h2>Environment Variables</h2>
+    <ul class="nav nav-tabs">
+      <li><a href="#environment-heroku" data-toggle="tab">Heroku</a></li>
+      <li><a href="#environment-dotcloud" data-toggle="tab">Dotcloud</a></li>
+      <li><a href="#environment-openshift" data-toggle="tab">OpenShift</a></li>
+      <li><a href="#environment-elasticbeanstalk" data-toggle="tab">Elastic Beanstalk</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane" id="environment-heroku">
+        <h3>Adding Environment Variables</h3>
+        <pre class="prettyprint">
+          <code class="language-bash">
+heroku config:add \
+    STORAGE=s3storage \
+    S3_ACCESS_KEY=[Your AWS Access Key] \
+    S3_SECRET_KEY=[Your AWS Secret Key] \
+    S3_BUCKET_NAME=[Name for an S3 Bucket] \
+    REDIS_URI=[Redis URI from OpenRedis] \
+    DB_URI=[Postgres URI from Heroku] \
+    PASSCODE=[Your Super Secret Passcode]
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="environment-dotcloud">
+        <h3>Adding Environment Variables</h3>
+        <pre class="prettyprint">
+          <code class="language-bash">
+dotcloud env set \
+    'AWS_ACCESS_KEY=IA4F0njNcmKKg3YndpOe' \
+    'AWS_SECRET_KEY=Ideeghu0Ohghe7oi?Y6ogh7qui%jeiph7yai[coo'
+        </code>
+        </pre>
+        <h3>Or in the dotcloud.yml</h3>
+        You don't need to do both. Either set it with 'env set' or add them to the dotcloud.yml file.
+        <div class="alert">
+          <strong>Warning!</strong> you should not put sensitive information in the dotcloud.yml file, if this file is being pushed up to a public repository.
+        </div>
+        <pre class="prettyprint">
+          <code class="language-yml">
+www:
+  type: python
+  environment:
+    MODE: production
+    AWS_ACCESS_KEY=IA4F0njNcmKKg3YndpOe
+    AWS_SECRET_KEY=Ideeghu0Ohghe7oi?Y6ogh7qui%jeiph7yai[coo
+        </code>
+        </pre>
+
+      </div>
+      <div class="tab-pane" id="environment-openshift">
+        <pre class="prettyprint">
+          <code class="language-py">
+...
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="environment-elasticbeanstalk">
+        <h3>.ebextensions directory</h3>
+        Create an .ebextensions directory in the top-level directory of your source bundle.
+        <pre class="prettyprint">
+          <code class="language-bash">
+$ mkdir .ebextensions
+          </code>
+        </pre>
+        Create a configuration file with the extension .config (e.g., myapp.config) and place it in the .ebextensions top-level directory. For more information, see the <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Python_custom_container.html">Customizing and Configuring a Python Container</a>
+        <h3>.ebextensions/myapp.config</h3>
+        <pre class="prettyprint">
+          <code class="language-yml">
+container_commands:
+  01_syncdb:    
+    command: "django-admin.py syncdb --noinput"
+    leader_only: true
+
+option_settings:
+  - namespace: aws:elasticbeanstalk:container:python
+    option_name: WSGIPath
+    value: mywebsite/wsgi.py
+  - option_name: DJANGO_SETTINGS_MODULE
+    value: mywebsite.settings
+  - option_name: AWS_SECRET_KEY
+    value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  - option_name: AWS_ACCESS_KEY_ID
+    value: AKIAIOSFODNN7EXAMPLE
+        </code>
+        </pre>
+        <div class="alert">
+          <strong>Warning!</strong> you should not put sensitive information in the myapp.config file, if this file is being pushed up to a public repository.
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+<hr>
+
+  <section id="wsgi">
+
+    <h2>WSGI Handler</h2>
+    <ul class="nav nav-tabs">
+      <li><a href="#wsgi-heroku" data-toggle="tab">Heroku</a></li>
+      <li><a href="#wsgi-dotcloud" data-toggle="tab">Dotcloud</a></li>
+      <li><a href="#wsgi-openshift" data-toggle="tab">OpenShift</a></li>
+      <li><a href="#wsgi-elasticbeanstalk" data-toggle="tab">Elastic Beanstalk</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane" id="wsgi-heroku">
+        <h3>Procfile</h3>
+        Heroku uses a Procfile. Here's a sample one:
+        <pre class="prettyprint">
+          <code class="language-bash">
+web: gunicorn_django -b 0.0.0.0:\$PORT -w 9 -k gevent --max-requests 250 --preload path/to/settings.py
+        </code>
+        </pre>
+        Or you can run gunicorn standalone (where you have a file mywebsite/wsgi.py):
+        <pre class="prettyprint">
+          <code class="language-bash">
+web: gunicorn -b 0.0.0.0:$PORT -k gevent -w 4 mywebsite.wsgi:application
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="wsgi-dotcloud">
+        <h3>wsgi.py</h3>
+        <pre class="prettyprint">
+          <code class="language-py">
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),'mywebsite')))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mywebsite.settings'
+import django.core.handlers.wsgi
+application = django.core.handlers.wsgi.WSGIHandler()        </code>
+        </pre>
+        <div class="alert">
+          <strong>Warning!</strong> You must insert any directories that must be on the Python path using sys.path.insert. In this example, we're inserting the directory 'mywebsite' which contains our Django project.
+        </div>
+      </div>
+      <div class="tab-pane" id="wsgi-openshift">
+        <h3>wsgi/application</h3>
+        Create a directory called 'wsgi' and inside it, put a file 'application':
+        <pre class="prettyprint">
+          <code class="language-py">
+#!/usr/bin/env python
+
+import os
+import sys
+
+sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR']))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mywebsite.settings'
+virtenv = os.environ['OPENSHIFT_HOMEDIR'] + 'python-2.6/virtenv/'
+os.environ['PYTHON_EGG_CACHE'] = os.path.join(virtenv, 'lib/python2.6/site-packages')
+virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+
+try:    
+    execfile(virtualenv, dict(__file__=virtualenv))
+except IOError:    
+    pass
+
+## IMPORTANT: Put any additional includes below this line.  If placed above this
+# line, it's possible required libraries won't be in your searchable path
+
+import django.core.handlers.wsgi
+
+application = django.core.handlers.wsgi.WSGIHandler()
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="elasticbeanstalk">
+        <pre class="prettyprint">
+          <code class="language-py">
+...
+        </code>
+        </pre>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="ssl">
+
+    <h2>SSL configuration</h2>
+    <ul class="nav nav-tabs">
+      <li><a href="#ssl-heroku" data-toggle="tab">Heroku</a></li>
+      <li><a href="#ssl-dotcloud" data-toggle="tab">Dotcloud</a></li>
+      <li><a href="#ssl-openshift" data-toggle="tab">OpenShift</a></li>
+      <li><a href="#ssl-elasticbeanstalk" data-toggle="tab">Elastic Beanstalk</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane" id="ssl-heroku">
+        <h3>Add the SSL add-on</h3>
+        Heroku uses a Procfile. Here's a sample one:
+        <pre class="prettyprint">
+          <code class="language-py">
+web: gunicorn_django -b 0.0.0.0:\$PORT -w 9 -k gevent --max-requests 250 --preload path/to/settings.py
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="ssl-dotcloud">
+        <h3>Add django-secure to requirements.txt</h3>
+
+        <h3>settings.py</h3>
+        Add djangosecure to the INSTALLED_APPS:
+        <pre class="prettyprint">
+          <code class="language-py">
+INSTALLED_APPS = (
+  ...
+  'djangosecure',
+  ...
+  )
+        </code>
+      </pre>
+      Run the site over SSL
+        <pre class="prettyprint">
+          <code class="language-py">
+MIDDLEWARE_CLASSES = (
+    'djangosecure.middleware.SecurityMiddleware',
+) + MIDDLEWARE_CLASSES
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 2592000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_FRAME_DENY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+        </code>
+        </pre>
+        <div class="alert">
+          <strong>Warning!</strong> You must insert any directories that must be on the Python path using sys.path.insert. In this example, we're inserting the directory 'mywebsite' which contains our Django project.
+        </div>
+      </div>
+      <div class="tab-pane" id="ssl-openshift">
+        <h3>wsgi/application</h3>
+        Create a directory called 'wsgi' and inside it, put a file 'application':
+        <pre class="prettyprint">
+          <code class="language-py">
+#!/usr/bin/env python
+
+import os
+import sys
+
+sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR']))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mywebsite.settings'
+virtenv = os.environ['OPENSHIFT_HOMEDIR'] + 'python-2.6/virtenv/'
+os.environ['PYTHON_EGG_CACHE'] = os.path.join(virtenv, 'lib/python2.6/site-packages')
+virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+
+try:    
+    execfile(virtualenv, dict(__file__=virtualenv))
+except IOError:    
+    pass
+
+## IMPORTANT: Put any additional includes below this line.  If placed above this
+# line, it's possible required libraries won't be in your searchable path
+
+import django.core.handlers.wsgi
+
+application = django.core.handlers.wsgi.WSGIHandler()
+        </code>
+        </pre>
+      </div>
+      <div class="tab-pane" id="ssl-openbeanstalk">
+        <pre class="prettyprint">
+          <code class="language-py">
+...
+        </code>
+        </pre>
+      </div>
+    </div>
+
+  </section>
+
+          <h2>Options</h2>
+          <p class="well note">
+              Enter Options Instructions Here
+          </p>
+    
+          <h3>Options</h3>
+          <table class="table table-striped table-bordered table-condensed">
+              <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Default</th>
+                  <th>Parameters</th>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+              <tr>
+                  <td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+                      <a href="#">Option Name</a>
+                  </td>
+                  <td>Enter Option Type Here</td>
+                  <td>Enter Option Default Here</td>
+                  <td>Enter Option Parameters Here</td>
+              </tr>
+          </table>
+          <br />
+          <h2>Contributing</h2>
+
+          <div class="github-widget" data-repo="appsembler/paascheatsheet"></div>
+            <br />
+            <p>The project is hosted on <a href="#" target="_blank" class="projectLinks">Github</a> and is available for use under the <a href="#" target="_blank" class="projectLinks">MIT software license</a>.  You can report bugs and discuss features on the <a href="#" target="_blank">GitHub issues page</a>, or send tweets to <a href="http://twitter.com/appsembler" target="_blank">@appsembler</a>.
+            </p>
+            <p><a class="btn btn-primary btn-large" href="#" target="_blank">Fork on Github &raquo;</a></p>
+          </div>
+
+      </div><!--/row-->
+      <hr>
+      <div class="navbar" style="margin:0 auto; width:50%;">
+        <p>
+            <small>Copyright &copy; 2013 Nate Aune by <a href="http://twitter.com/natea">@natea</a> from <a href="http://twitter.com/appsembler">@appsembler</a>
+            <br /><br />
+            Published by Github Pages
+          </small>
+        </p>
+      </div>
+    </div><!--/.fluid-container-->
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.custom.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/jquery.tocify.min.js"></script>
+    <script src="js/prettify.js"></script>
+    <script src="js/githubrepo.js"></script>
+    
+    <!-- segment.io -->
+    <script type="text/javascript">
+  var analytics=analytics||[];analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);var r=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}},i=["identify","track","trackLink","trackForm","trackClick","trackSubmit","pageview","ab","alias","ready"];for(var s=0;s<i.length;s++)analytics[i[s]]=r(i[s])};
+  analytics.load("dk8j4pgbaxp");
+    </script>
+
+    <script>
+        $(function() {
+
+            $("#toc").tocify({ selectors: "h2, h3, h4", scrollTo: 60, highlightOffset: 60, extendPage: true });
+
+            prettyPrint();
+
+            $(".optionName").popover({ trigger: "hover" });
+
+            $("a[href='#']").click(function(event) {
+ 
+                event.preventDefault();
+
+            });
+
+        });
+    </script>
+  </body>
+</html>
