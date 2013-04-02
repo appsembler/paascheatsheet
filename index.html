@@ -13,13 +13,15 @@
     <meta http-equiv="cleartype" content="on">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
 <!--     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/black-tie/jquery-ui.css" rel="stylesheet">
  -->
-    <link href="css/jquery.ui.all.css" rel="stylesheet">    
-    <link href="css/jquery.tocify.css" rel="stylesheet">
+    <link href="css/jquery.ui.all.css" rel="stylesheet" />    
+    <link href="css/jquery.tocify.css" rel="stylesheet" />
     <link href="css/prettify.css" type="text/css" rel="stylesheet" />
     <link href="css/styles.css" type="text/css" rel="stylesheet" />
+    <link href="http://assets.annotateit.org/annotator/v1.2.5/annotator.min.css" rel="stylesheet" />
 
     <link href="http://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -65,6 +67,22 @@
               <li class="active"><a href="index.html">Home</a></li>
               <li><a href="about.html">About</a></li>
             </ul>
+          Choose PaaS provider:
+          <select id="provider" name="provider">
+            <option value="heroku">Heroku</option>
+            <option value="dotcloud">Dotcloud</option>
+            <option value="openshift">OpenShift</option>
+            <option value="elasticbeanstalk">Elastic Beanstalk</option>
+          </select>
+          <!-- TowTruck 
+          http://towtruck.mozillalabs.com
+          -->
+          <button onclick="TowTruck(this); return false;">Screenshare this page</button>
+
+          <!-- AnnotateIt 
+          https://github.com/okfn/annotator/
+          -->
+          <a class="bookmarklet" href='javascript:(function(a,b){a._annotatorConfig={auth:{tokenUrl:"http://annotateit.org/api/token"},store:{prefix:"http://annotateit.org/api"},tags:!0},s=b.body.appendChild(b.createElement("script")),s.language="javascript",s.src="http://assets.annotateit.org/bookmarklet/bootstrap.js"})(this,this.document);'>Comment on this page</a>
          </div><!--/.nav-collapse -->
 
         </div>
@@ -78,33 +96,33 @@
           <div id="toc">
           </div><!--/.well -->
         </div><!--/span-->
-        <div class="span9">
+        <div class="span9" id="content">
 
-        <!-- Jumbotron -->
-        <div class="jumbotron">
+          <!-- Jumbotron -->
+          <div class="jumbotron">
 
-          <div class="providers" style="width: 800px;">
-          <h1>PaaS Cheatsheet</h1>
-          <p class="lead">Quick start guide to deploying apps to PaaS providers</p>
-          <img style="display: block; margin: 0 auto;" src="img/logos/github-logo.png" />
-          <img style="display: block; margin: 0 auto;" src="img/splay.png">
+            <div class="providers" style="width: 800px;">
+              <h1>PaaS Cheatsheet</h1>
+              <p class="lead">Quick start guide to deploying apps to PaaS providers</p>
+              <img style="display: block; margin: 0 auto;" src="img/logos/github-logo.png" />
+              <img style="display: block; margin: 0 auto;" src="img/splay.png">
 
-          <ul class="provider-list">
-            <li>
-              <img src="img/logos/heroku-logo-white.jpg" style="display: inline-block; width: 100px;">
-            </li>
-            <li>
-              <img src="img/logos/dotcloud-logo.jpg" style="display: inline-block; width: 100px;">
-            </li>
-            <li>
-              <img src="img/logos/openshift_logo.png" style="display: inline-block; width: 100px;">
-            </li>
-            <li>
-              <img src="img/logos/amazon-web-services-logo.png" style="display: inline-block; width: 100px;">
-            </li>
-          </ul>
-        </div>
-      </div>
+              <ul class="provider-list">
+                <li>
+                  <img src="img/logos/heroku-logo-white.jpg" style="display: inline-block; width: 100px;">
+                </li>
+                <li>
+                  <img src="img/logos/dotcloud-logo.jpg" style="display: inline-block; width: 100px;">
+                </li>
+                <li>
+                  <img src="img/logos/openshift_logo.png" style="display: inline-block; width: 100px;">
+                </li>
+                <li>
+                  <img src="img/logos/amazon-web-services-logo.png" style="display: inline-block; width: 100px;">
+                </li>
+              </ul>
+            </div>
+          </div>
 
       <section id="requirements">
 
@@ -709,6 +727,7 @@ application = django.core.handlers.wsgi.WSGIHandler()
               </tr>
           </table>
 
+        </div><!--/span9-->
       </div><!--/row-->
       <hr>
       <div class="navbar" style="margin:0 auto; width:50%;">
@@ -731,7 +750,9 @@ application = django.core.handlers.wsgi.WSGIHandler()
     <script src="js/history.js"></script>
     <script src="js/jquery.tocify.min.js"></script>
     <script src="js/prettify.js"></script>
-    
+    <script src="https://towtruck.mozillalabs.com/towtruck.js"></script>
+    <script src="http://assets.annotateit.org/annotator/v1.2.5/annotator-full.min.js"></script>
+
     <!-- segment.io -->
     <script type="text/javascript">
   var analytics=analytics||[];analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);var r=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}},i=["identify","track","trackLink","trackForm","trackClick","trackSubmit","pageview","ab","alias","ready"];for(var s=0;s<i.length;s++)analytics[i[s]]=r(i[s])};
@@ -753,6 +774,12 @@ application = django.core.handlers.wsgi.WSGIHandler()
 
             });
 
+            // $('#provider').on('change', function() {         
+            //   $(".nav-tabs $(this).value a").tab('show')
+            // });
+
+            $('#content').annotator()
+                         .annotator('setupPlugins');
         });
     </script>
   </body>
