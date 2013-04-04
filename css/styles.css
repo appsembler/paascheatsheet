@@ -127,7 +127,7 @@ pre.prettyprint {
 
 #gittip {
   border: 0; 
-  margin-left: 5px;
-  margin-top: 5px; 
-  padding: 0;     
+  padding-left: 5px;
+  padding-top: 5px; 
+  margin: 0;     
 }
