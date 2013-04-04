@@ -768,7 +768,7 @@ application = django.core.handlers.wsgi.WSGIHandler()
         </code>
         </pre>
       </div>
-      <div class="tab-pane" id="elasticbeanstalk"> 
+      <div class="tab-pane" id="wsgi-elasticbeanstalk"> 
         <h3>.ebextensions/myapp.config</h3>
         <pre class="prettyprint">
           <code class="language-yml">
@@ -802,10 +802,169 @@ application = get_wsgi_application()
   <section id="staticfiles">
 
     <h2>Static files</h2>
-    <p>Coming soon!</p>
+   <ul class="nav nav-tabs">
+      <li><a href="#staticfiles-heroku" data-toggle="tab">Heroku</a></li>
+      <li><a href="#staticfiles-dotcloud" data-toggle="tab">Dotcloud</a></li>
+      <li><a href="#staticfiles-openshift" data-toggle="tab">OpenShift</a></li>
+      <li><a href="#staticfiles-elasticbeanstalk" data-toggle="tab">Elastic Beanstalk</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane" id="staticfiles-heroku">
+        <h3>Heroku</h3>
+        <p>Heroku doesn't provide a native way to serve up static assets, so you must push your static assets to another provider such as Amazon S3.</p>
+        <h4>STATIC_ROOT</h4>
+        <p>In settings.py:</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+        </code>
+        </pre>
+        <h4>MEDIA_ROOT</h4>
+        <p>In settings.py</p>
+        <pre class="prettyprint">
+          <code class="language-bash">
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+        </code>
+        </pre>
+        <h4>django-storages</h4>
+        <p>In requirements.txt</p>
+        <pre class="prettyprint">
+          <code class="language-text">
+django-storages
+        </code>
+        </pre>
+        <p>In requirements.txt</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+INSTALLED_APPS += ("storages",)
+          </code>
+        </pre>
+        <h4>Amazon S3 configuration</h4>
+        <p>In settings.py</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
+
+STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+MEDIA_URL = STATIC_URL + 'media/'
+          </code>
+        </pre>
+      </div>
+
+      <div class="tab-pane" id="staticfiles-dotcloud">
+        <h3>Dotcloud</h3>
+        <p>Dotcloud lets you serve up static assets via Nginx, and persists uploaded media across deploys.</p>
+        <h4>STATIC_ROOT</h4>
+        <p>In settings.py:</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+STATIC_ROOT = '/home/dotcloud/volatile/static/'
+          </code>
+        </pre>
+        <p>In nginx.conf:</p>
+        <pre class="prettyprint">
+          <code class="language-text">
+location /static/ { root /home/dotcloud/volatile ; }  
+          </code>
+        </pre>
+        <h4>MEDIA_ROOT</h4>
+        <p>In settings.py:</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+MEDIA_ROOT = '/home/dotcloud/data/media/'
+          </code>
+        </pre>
+        <p>Add another line to your nginx.conf:</p>
+        <pre class="prettyprint">
+          <code class="language-text">
+location /media/ { root /home/dotcloud/data/media; }
+          </code>
+        </pre>    
+      </div>
+      <div class="tab-pane" id="staticfiles-openshift">
+        <h3>OpenShift</h3>
+        <p>OpenShift also provides a directory that gets persisted across deploys, and static mapping using an .htaccess file:</p>
+        <h4>STATIC_ROOT</h4>
+        <p>in settings.py:</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+        </code>
+        </pre>
+        <p>In wsgi/static/.htaccess:</p>
+        <pre class="prettyprint">
+          <code class="language-text">
+RewriteEngine On
+RewriteRule ^application/static/(.+)$ /static/$1 [L]
+        </code>
+        </pre>
+        <h4>MEDIA_ROOT</h4>
+        <p>OpenShift provides a persisted data dir that can be referenced with the environment variable OPENSHIFT_DATA_DIR:</p>
+        <p>in settings.py:</p>
+        <pre class="prettyprint">
+          <code class="language-py">
+MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR'), 'media')
+        </code>
+        </pre>
+        <p>You then need to symlink this directory to the static directory that is being served up by Apache (see above in STATIC_ROOT).</p>
+        <p>In .openshift/action_hooks/build:</p>
+        <pre class="prettyprint">
+          <code class="language-bash">
+#!/bin/bash
+if [ ! -d $OPENSHIFT_DATA_DIR/media ]; then
+    mkdir $OPENSHIFT_DATA_DIR/media
+fi
+ 
+ln -sf $OPENSHIFT_DATA_DIR/media $OPENSHIFT_REPO_DIR/wsgi/static/media
+        </code>
+        </pre>
+
+      </div>
+      <div class="tab-pane" id="staticfiles-elasticbeanstalk">
+      <h3>Elastic Beanstalk</h3> 
+        <p>.ebextensions/myapp.config</p>
+        <pre class="prettyprint">
+          <code class="language-yml">
+option_settings:
+  ...
+  "aws:elasticbeanstalk:container:python:staticfiles":
+    "/static/": "static/"
+        </code>
+        </pre>
+        <h3>wsgi.py</h3>
+        <pre class="prettyprint">
+          <code class="language-py">
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mywebsite.settings")
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+        </code>
+        </pre>
+
+      </div>
+    </div>
   </section>
 
-
+<h2>Logging</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>Scaling</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>Backups</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>Custom domains</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>Email</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>SSL / HTTPS</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>System packages</h2>
+<p>Coming soon! Contributions welcome :)</p>
+<h2>Background jobs</h2>
+<p>Coming soon! Contributions welcome :)</p>
 
     <div id="disqus_thread"></div>
     <script type="text/javascript">
