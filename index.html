@@ -21,7 +21,7 @@
     <link href="css/jquery.tocify.css" rel="stylesheet" />
     <link href="css/prettify.css" type="text/css" rel="stylesheet" />
     <link href="css/styles.css" type="text/css" rel="stylesheet" />
-    <link href="http://assets.annotateit.org/annotator/v1.2.5/annotator.min.css" rel="stylesheet" />
+<!--     <link href="http://assets.annotateit.org/annotator/v1.2.5/annotator.min.css" rel="stylesheet" /> -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/3.3.0/jquery.selectBoxIt.css" rel="stylesheet" />
 
     <link href="http://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
@@ -131,7 +131,7 @@
 
       <section id="introduction">
         <h2>Introduction</h2>
-        <p>This project grew out of my observation that each PaaS provider requires you to configure your project in order to use their particular service.</p> 
+        <p>This project grew out of my observation that each PaaS provider requires you to configure your project in a special way in order to use their particular service.</p> 
         <p>Let's say I want to use a MySQL database with a PaaS provider. Rather than digging through their online documentation and code examples, trying to remember how a particular PaaS provider handles the creation and configuration of a MySQL database, I wanted a reference guide that would show me quickly how they do it.</p>
         <p>Thus the PaaS cheatsheet was born.</p>
         <p> It's currently Django specific as that's my web framework of choice these days, but you can <a href="http://github.com/appsembler/paascheatsheet">fork the project</a> and add docs for other frameworks such as Rails, Node.js, PHP, Java, etc. Contributions are most welcome! Also see the <a href="#contribute">contribute</a> section below for more info.</p>
@@ -142,7 +142,7 @@
         <h2>Background</h2>
         <p>I've been exploring various PaaS providers to see which ones are suitable for integration with <a href="http://appsembler.com">Appsembler</a>, a platform that I've been building which SaaS-enables open source web applications.</p>
           <p>Appsembler's mission is to make it easier to choose open source web software. Leveraging PaaS, we can more easily offer open source web apps in the SaaS model, and skip the download-configure-deploy dance. And by offering these apps in the SaaS model, it means they can be used by a wider audience - not just technical users.</p>
-        <p>I wrote a series of blog posts about my experience deploying a Django app to various PaaS providers, and then gave a talk at my local Django users group and also at PyCon 2013. Here are some links to those blog posts and talks in case you're interested in reading more.</p>
+        <p>I wrote a series of blog posts about my experience deploying a Django app to various PaaS providers, and then gave a talk at the local Boston Django users group and also at PyCon 2013. Here are some links to those blog posts and talks in case you're interested in reading more.</p>
         <ul>
           <li><a href="http://appsembler.com/blog/deploy-your-python-app-in-5-min-with-a-paas/">Deploy your Python app in 5 min with a PaaS</a> (PyCon talk)</li>
           <li><a href="http://appsembler.com/blog/paas-bakeoff-comparing-stackato-openshift-dotcloud-and-heroku-for-django-hosting-and-deployment/">PaaS bakeoff: Comparing Stackato, OpenShift, Dotcloud and Heroku for Django hosting and deployment</a></li>
@@ -152,6 +152,7 @@
         </ul>
 
       </section>
+
       <section id="getting-started">
         <h2>Getting Started</h2>
         <p>Click a tab to see how to get started with a particular PaaS provider.</p>
@@ -780,6 +781,12 @@ application = get_wsgi_application()
 
   </section>
 
+  <section id="staticfiles">
+
+    <h2>Static files</h2>
+    <p>Coming soon!</p>
+  </section>
+
   <section id="contribute">
     <h2>Contribute</h2>
     <p>As mentioned in the introduction, the PaaS Cheatsheet is on Github and you are encouraged to <a href="http://github.com/appsembler/paascheatsheet">fork it</a>, and add other frameworks or PaaS providers. Just submit a pull request!</p>
@@ -790,6 +797,24 @@ application = get_wsgi_application()
     </ul>
         <p>paasbakeoff is more of a reference repo for testing purposes, but if you'd like to help out with django-deployer, please let me know!</p> 
   </section>
+
+<section id="discussion">
+  <h2>Discussion</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'paascheatsheet'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
 
         </div><!--/span9-->
       </div><!--/row-->
