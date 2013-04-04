@@ -119,3 +119,7 @@ a.bookmarklet {
 pre.prettyprint {
   padding: 0 10px 0 10px;
 }
+
+.addthis_toolbox {
+  float: right;
+}
