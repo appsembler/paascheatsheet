@@ -54,18 +54,18 @@
 
             <select id="download">
               <option name="#"><i class="icon-download-alt"></i>Download zipfile</option>
-              <option name="https://github.com/appsembler/paasbakeoff/archive/heroku.zip" data-iconurl="img/favicons/heroku.ico">Heroku</option>
-              <option name="https://github.com/appsembler/paasbakeoff/archive/dotcloud.zip" data-iconurl="img/favicons/dotcloud.ico">Dotcloud</option>
-              <option name="https://github.com/appsembler/paasbakeoff/archive/openshift.zip" data-iconurl="img/favicons/openshift.png">OpenShift</option>
-              <option name="https://github.com/appsembler/paasbakeoff/archive/elasticbeanstalk.zip" data-iconurl="img/favicons/elasticbeanstalk.ico">Elastic Beanstalk</option>
+              <option name="heroku" href="https://github.com/appsembler/paasbakeoff/archive/heroku.zip" data-iconurl="img/favicons/heroku.ico">Heroku</option>
+              <option name="dotcloud" href="https://github.com/appsembler/paasbakeoff/archive/dotcloud.zip" data-iconurl="img/favicons/dotcloud.ico">Dotcloud</option>
+              <option name="openshift" href="https://github.com/appsembler/paasbakeoff/archive/openshift.zip" data-iconurl="img/favicons/openshift.png">OpenShift</option>
+              <option name="elasticbeanstalk" href="https://github.com/appsembler/paasbakeoff/archive/elasticbeanstalk.zip" data-iconurl="img/favicons/elasticbeanstalk.ico">Elastic Beanstalk</option>
             </select>
 
             <select id="github">
               <option name="#"><i class="icon-download-alt"></i>Example on Github</option>
-              <option name="https://github.com/appsembler/paasbakeoff/tree/heroku" data-iconurl="http://www.heroku.com/favicon.ico">Heroku</option>
-              <option name="https://github.com/appsembler/paasbakeoff/tree/dotcloud" data-iconurl="https://www.dotcloud.com/static/img/favicon.ico">Dotcloud</option>
-              <option name="https://github.com/appsembler/paasbakeoff/tree/openshift" data-iconurl="https://openshift.redhat.com/app/assets/favicon-32.png">OpenShift</option>
-              <option name="https://github.com/appsembler/paasbakeoff/tree/elasticbeanstalk" data-iconurl="http://d36cz9buwru1tt.cloudfront.net/favicon.ico">Elastic Beanstalk</option>
+              <option name="heroku" href="https://github.com/appsembler/paasbakeoff/tree/heroku" data-iconurl="img/favicons/heroku.ico">Heroku</option>
+              <option name="dotcloud" href="https://github.com/appsembler/paasbakeoff/tree/dotcloud" data-iconurl="img/favicons/dotcloud.ico">Dotcloud</option>
+              <option name="openshift" href="https://github.com/appsembler/paasbakeoff/tree/openshift" data-iconurl="img/favicons/openshift.png">OpenShift</option>
+              <option name="elasticbeanstalk" href="https://github.com/appsembler/paasbakeoff/tree/elasticbeanstalk" data-iconurl="img/favicons/elasticbeanstalk.ico">Elastic Beanstalk</option>
             </select>
           <!-- TowTruck 
           http://towtruck.mozillalabs.com
@@ -873,11 +873,11 @@ application = get_wsgi_application()
             //              .annotator('setupPlugins');
 
             $('#download').change(function() {
-              window.location = $(':selected',this).attr('name')
+              window.location = $(':selected',this).attr('href')
             });
 
             $('#github').change(function() {
-              window.location = $(':selected',this).attr('name')
+              window.location = $(':selected',this).attr('href')
             });
 
             $(function() {
@@ -896,6 +896,18 @@ application = get_wsgi_application()
     </script>
 
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f3894096a1b2da0"></script>
+
+    <script type="text/javascript">
+      var download = $('#download');
+      var github = $('#github');
+
+      analytics.trackLink(download, 'Clicked download link', {
+        provider : $(':selected',this).attr('name')
+      });
+
+      analytics.trackLink(github, 'Clicked Github link', {
+        provider : $(':selected',this).attr('name')
+      });
 
   </body>
 </html>
