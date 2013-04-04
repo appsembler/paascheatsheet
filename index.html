@@ -70,7 +70,7 @@
           <!-- TowTruck 
           http://towtruck.mozillalabs.com
           -->
-          <a class="btn btn-small" onclick="TowTruck(this); return false;"><i class="icon-desktop"></i>&nbsp;Screenshare this page</a>
+          <a class="btn btn-small" id="towtruck" onclick="TowTruck(this); return false;"><i class="icon-desktop"></i>&nbsp;Screenshare this page</a>
 
           <!-- Gittip button -->
           <iframe style="border: 0; margin: 0; padding: 0;"
@@ -163,8 +163,8 @@
         <p>As mentioned in the introduction, the PaaS Cheatsheet is on Github and you are encouraged to <a href="http://github.com/appsembler/paascheatsheet">fork it</a>, and add other frameworks or PaaS providers. Just submit a pull request!</p>
         <p>In addition to this project, there are two sister projects:</p>
           <ul>
-            <li><a href="http://github.com/natea/django-deployer">django-deployer</a> is an attempt to create a universal PaaS agnostic deployer tool for Django projects.</li>
-            <li><a href="http://github.com/appsembler/paasbakeoff">paasbakeoff</a> contains a skeleton project for Mezzanine, a popular Django-based CMS that lives on the master branch. There are separate branches with example config files to deploy Mezzanine to each PaaS provider.</li>
+            <li><a id="deployer" href="http://github.com/natea/django-deployer">django-deployer</a> is an attempt to create a universal PaaS agnostic deployer tool for Django projects.</li>
+            <li><a id="bakeoff" href="http://github.com/appsembler/paasbakeoff">paasbakeoff</a> contains a skeleton project for Mezzanine, a popular Django-based CMS that lives on the master branch. There are separate branches with example config files to deploy Mezzanine to each PaaS provider.</li>
         </ul>
             <p>paasbakeoff is more of a reference repo for testing purposes, but if you'd like to help out with django-deployer, please let me know!</p> 
       </section>
@@ -900,6 +900,11 @@ application = get_wsgi_application()
     <script type="text/javascript">
       var download = $('#download');
       var github = $('#github');
+      var forkme = $('#fork-me');
+      var towtruck = $('#towtruck');
+      var gittip = $('#gittip');
+      var deployer = $('#deployer');
+      var bakeoff = $('#bakeoff');
 
       analytics.trackLink(download, 'Clicked download link', {
         provider : $(':selected',this).attr('name')
@@ -909,5 +914,11 @@ application = get_wsgi_application()
         provider : $(':selected',this).attr('name')
       });
 
+      analytics.trackLink(forkme, 'Clicked Fork me on Github');
+      analytics.trackLink(towtruck, 'Clicked Screenshare this page');
+      analytics.trackLink(gittip, 'Clicked Gittip button');
+      analytics.trackLink(deployer, 'Clicked django-deployer link');
+      analytics.trackLink(bakeoff, 'Clicked paasbakeoff link');
+    </script>
   </body>
 </html>
