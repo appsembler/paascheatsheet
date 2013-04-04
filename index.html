@@ -13,13 +13,13 @@
     <meta http-equiv="cleartype" content="on">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <!--     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/black-tie/jquery-ui.css" rel="stylesheet">
  -->
-    <link href="css/jquery.ui.all.css" rel="stylesheet" />    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/css/smoothness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet" />    
     <link href="css/jquery.tocify.css" rel="stylesheet" />
-    <link href="css/prettify.css" type="text/css" rel="stylesheet" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.css" type="text/css" rel="stylesheet" />
     <link href="css/styles.css" type="text/css" rel="stylesheet" />
 <!--     <link href="http://assets.annotateit.org/annotator/v1.2.5/annotator.min.css" rel="stylesheet" /> -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/3.3.0/jquery.selectBoxIt.css" rel="stylesheet" />
@@ -144,7 +144,7 @@
       </section>
 
       <section id="background">
-        <h2>Background</h2>
+        <h3>Background</h3>
         <p>I've been exploring various PaaS providers to see which ones are suitable for integration with <a href="http://appsembler.com">Appsembler</a>, a platform that I've been building which SaaS-enables open source web applications.</p>
           <p>Appsembler's mission is to make it easier to choose open source web software. Leveraging PaaS, we can more easily offer open source web apps in the SaaS model, and skip the download-configure-deploy dance. And by offering these apps in the SaaS model, it means they can be used by a wider audience - not just technical users.</p>
         <p>I wrote a series of blog posts about my experience deploying a Django app to various PaaS providers, and then gave a talk at the local Boston Django users group and also at PyCon 2013. Here are some links to those blog posts and talks in case you're interested in reading more.</p>
@@ -156,6 +156,17 @@
           <li><a href="http://appsembler.com/blog/django-deployment-using-stackato/">Django deployment using Stackato</a></li>
         </ul>
 
+      </section>
+
+      <section id="contribute">
+        <h3>Contribute</h3>
+        <p>As mentioned in the introduction, the PaaS Cheatsheet is on Github and you are encouraged to <a href="http://github.com/appsembler/paascheatsheet">fork it</a>, and add other frameworks or PaaS providers. Just submit a pull request!</p>
+        <p>In addition to this project, there are two sister projects:</p>
+          <ul>
+            <li><a href="http://github.com/natea/django-deployer">django-deployer</a> is an attempt to create a universal PaaS agnostic deployer tool for Django projects.</li>
+            <li><a href="http://github.com/appsembler/paasbakeoff">paasbakeoff</a> contains a skeleton project for Mezzanine, a popular Django-based CMS that lives on the master branch. There are separate branches with example config files to deploy Mezzanine to each PaaS provider.</li>
+        </ul>
+            <p>paasbakeoff is more of a reference repo for testing purposes, but if you'd like to help out with django-deployer, please let me know!</p> 
       </section>
 
       <section id="getting-started">
@@ -792,19 +803,8 @@ application = get_wsgi_application()
     <p>Coming soon!</p>
   </section>
 
-  <section id="contribute">
-    <h2>Contribute</h2>
-    <p>As mentioned in the introduction, the PaaS Cheatsheet is on Github and you are encouraged to <a href="http://github.com/appsembler/paascheatsheet">fork it</a>, and add other frameworks or PaaS providers. Just submit a pull request!</p>
-    <p>In addition to this project, there are two sister projects:</p>
-      <ul>
-        <li><a href="http://github.com/natea/django-deployer">django-deployer</a> is an attempt to create a universal PaaS agnostic deployer tool for Django projects.</li>
-        <li><a href="http://github.com/appsembler/paasbakeoff">paasbakeoff</a> contains a skeleton project for Mezzanine, a popular Django-based CMS that lives on the master branch. There are separate branches with example config files to deploy Mezzanine to each PaaS provider.</li>
-    </ul>
-        <p>paasbakeoff is more of a reference repo for testing purposes, but if you'd like to help out with django-deployer, please let me know!</p> 
-  </section>
 
-<section id="discussion">
-  <h2>Discussion</h2>
+
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -819,7 +819,7 @@ application = get_wsgi_application()
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</section>
+
 
         </div><!--/span9-->
       </div><!--/row-->
@@ -838,12 +838,12 @@ application = get_wsgi_application()
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.8.3.min.js"></script>
-    <script src="js/jquery-ui-1.9.1.custom.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/history.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/history.js/1.7.1/native.history.js"></script>
     <script src="js/jquery.tocify.min.js"></script>
-    <script src="js/prettify.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.js"></script>
     <script src="https://towtruck.mozillalabs.com/towtruck.js"></script>
     <!-- <script src="http://assets.annotateit.org/annotator/v1.2.5/annotator-full.min.js"></script> -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.selectboxit/3.3.0/jquery.selectBoxIt.min.js"></script>
