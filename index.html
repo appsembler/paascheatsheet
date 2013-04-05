@@ -143,6 +143,7 @@
         <p>Thus the PaaS cheatsheet was born.</p>
         <p> It's currently Django specific as that's my web framework of choice these days, but you can <a href="http://github.com/appsembler/paascheatsheet">fork the project</a> and add docs for other frameworks such as Rails, Node.js, PHP, Java, etc. Contributions are most welcome! Also see the <a href="#contribute">contribute</a> section below for more info.</p>
         <p>Feel free to contact me at <a href="http://twitter.com/natea">@natea</a> on Twitter or on <a href="http://github.com/natea">Github</a>.</p>
+        <p>You can also submit a ticket in the <a href="https://github.com/appsembler/paascheatsheet/issues">Github issue tracker</a> or comment in the <a href="#discussion">comments box</a> below.
       </section>
 
       <section id="background">
@@ -933,18 +934,6 @@ option_settings:
     "/static/": "static/"
         </code>
         </pre>
-        <h3>wsgi.py</h3>
-        <pre class="prettyprint">
-          <code class="language-py">
-import os
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mywebsite.settings")
-
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-        </code>
-        </pre>
-
       </div>
     </div>
   </section>
@@ -966,6 +955,8 @@ application = get_wsgi_application()
 <h2>Background jobs</h2>
 <p>Coming soon! Contributions welcome :)</p>
 
+  <section class="discussion">
+
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -981,6 +972,7 @@ application = get_wsgi_application()
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
+  </section>
 
         </div><!--/span9-->
       </div><!--/row-->
